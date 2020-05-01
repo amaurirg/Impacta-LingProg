@@ -28,7 +28,9 @@ class Funcionario(Pessoa):
         Construtor da classe Funcionário - lembre-se de usar o super para acessar o construtor da classe mãe
         e criar atributos que já estão definidos lá.
         '''
-        pass
+        super().__init__(nome, idade)
+        self.email = email
+        self.carga_horaria_semanal = carga_horaria_semanal
 
     def calcula_salario(self) -> float:
         '''
@@ -41,13 +43,13 @@ class Funcionario(Pessoa):
         altera a carga horária do funcionário, respeitando o limite de horas por categoria.
         Caso o numero informado seja inválido, levanta um ValueError
         '''
-        raise NotImplementedError
+        self.carga_horaria_semanal = nova_carga_horaria
 
     def consulta_carga_horaria(self) -> int:
         '''
         Devolve a carga horária de trabalho do funcionário
         '''
-        raise NotImplementedError
+        return self.carga_horaria_semanal
 
     def aumenta_salario(self) -> None:
         '''
@@ -88,7 +90,45 @@ class Programador(Funcionario):
     - cálculo do sálario mensal: calcule o pagamento semanal e considere que o mês
       possui sempre 4.5 semanas.
     '''
-    pass
+
+    def __init__(self, nome: str, idade: int, email: str, carga_horaria_semanal: int):
+        super().__init__(nome, idade, email, carga_horaria_semanal)
+        self.salario_base = 35.00
+        self.verifica_carga_horaria(carga_horaria_semanal)
+
+    def verifica_carga_horaria(self, carga_horaria: int) -> None:
+        '''
+        verifica se a carga horária do programador respeita o limite de horas
+        Caso o número informado seja inválido, levanta um ValueError
+        '''
+        if not 20 <= carga_horaria <= 40:
+            raise ValueError("A carga horária deve estar entre 20 e 40 horas semanais")
+        else:
+            self.carga_horaria_semanal = carga_horaria
+
+    def altera_carga_horaria(self, nova_carga_horaria: int) -> None:
+        '''
+        altera a carga horária do programador, respeitando o limite de horas.
+        Caso o numero informado seja inválido, levanta um ValueError
+        '''
+        self.verifica_carga_horaria(nova_carga_horaria)
+
+    def calcula_salario(self) -> float:
+        '''
+        Calcula o salário do mês para o programador.
+        salario base por hora 35.00;
+        cálculo do sálario mensal: calcule o pagamento semanal e considere que o mês
+        possui sempre 4.5 semanas.
+        '''
+        self.salario = self.carga_horaria_semanal * 4.5 * self.salario_base
+        return self.salario
+
+    def aumenta_salario(self) -> None:
+        '''
+        Aplica um aumento de 5% no valor da hora trabalhada para o funcionário
+        '''
+        self.salario_base += self.salario_base * 0.05
+        self.calcula_salario()
 
 
 class Estagiario(Funcionario):
@@ -100,7 +140,46 @@ class Estagiario(Funcionario):
     - cálculo do sálario mensal: calcule o pagamento semanal, considere que o mês
       possui sempre 4.5 semanas, e por fim adicione o auxílio alimentação.
     '''
-    pass
+
+    def __init__(self, nome: str, idade: int, email: str, carga_horaria_semanal: int):
+        super().__init__(nome, idade, email, carga_horaria_semanal)
+        self.salario_base = 15.50
+        self.auxilio_alimentacao = 250.00
+        self.verifica_carga_horaria(carga_horaria_semanal)
+
+    def verifica_carga_horaria(self, carga_horaria: int) -> None:
+        '''
+        verifica se a carga horária do programador respeita o limite de horas
+        Caso o número informado seja inválido, levanta um ValueError
+        '''
+        if not 16 <= carga_horaria <= 30:
+            raise ValueError("A carga horária deve estar entre 20 e 40 horas semanais")
+        else:
+            self.carga_horaria_semanal = carga_horaria
+
+    def altera_carga_horaria(self, nova_carga_horaria: int) -> None:
+        '''
+        altera a carga horária do programador, respeitando o limite de horas.
+        Caso o numero informado seja inválido, levanta um ValueError
+        '''
+        self.verifica_carga_horaria(nova_carga_horaria)
+
+    def calcula_salario(self) -> float:
+        '''
+        Calcula o salário do mês para o programador.
+        salario base por hora 35.00;
+        cálculo do sálario mensal: calcule o pagamento semanal e considere que o mês
+        possui sempre 4.5 semanas.
+        '''
+        self.salario = self.carga_horaria_semanal * 4.5 * self.salario_base + self.auxilio_alimentacao
+        return self.salario
+
+    def aumenta_salario(self) -> None:
+        '''
+        Aplica um aumento de 5% no valor da hora trabalhada para o funcionário
+        '''
+        self.salario_base += self.salario_base * 0.05
+        self.calcula_salario()
 
 
 class Vendedor(Funcionario):
@@ -120,11 +199,56 @@ class Vendedor(Funcionario):
       * zerar_visitas.
     '''
 
+    def __init__(self, nome: str, idade: int, email: str, carga_horaria_semanal: int):
+        super().__init__(nome, idade, email, carga_horaria_semanal)
+        self.salario_base = 30.00
+        self.auxilio_alimentacao = 350.00
+        self.auxilio_transporte_por_visita = 30.00
+        self.visitas_por_mes = 0
+        self.auxilio_transporte_total = 0
+        self.verifica_carga_horaria(carga_horaria_semanal)
+
+    def verifica_carga_horaria(self, carga_horaria: int) -> None:
+        '''
+        verifica se a carga horária do programador respeita o limite de horas
+        Caso o número informado seja inválido, levanta um ValueError
+        '''
+        if not 15 <= carga_horaria <= 45:
+            raise ValueError("A carga horária deve estar entre 20 e 40 horas semanais")
+        else:
+            self.carga_horaria_semanal = carga_horaria
+
+    def altera_carga_horaria(self, nova_carga_horaria: int) -> None:
+        '''
+        altera a carga horária do programador, respeitando o limite de horas.
+        Caso o numero informado seja inválido, levanta um ValueError
+        '''
+        self.verifica_carga_horaria(nova_carga_horaria)
+
+    def calcula_salario(self) -> float:
+        '''
+        Calcula o salário do mês para o programador.
+        salario base por hora 35.00;
+        cálculo do sálario mensal: calcule o pagamento semanal e considere que o mês
+        possui sempre 4.5 semanas.
+        '''
+
+        self.salario = self.carga_horaria_semanal * 4.5 * self.salario_base
+        self.auxilios = self.auxilio_alimentacao + self.auxilio_transporte_total
+        return self.salario + self.auxilios
+
+    def aumenta_salario(self) -> None:
+        '''
+        Aplica um aumento de 5% no valor da hora trabalhada para o funcionário
+        '''
+        self.salario_base += self.salario_base * 0.05
+        self.calcula_salario()
+
     def consulta_visitas(self) -> int:
         """
         Retorna o número de visitas realizadas pelo vendedor até o momento
         """
-        pass
+        return self.visitas_por_mes
 
     def realizar_visita(self, n_visitas: int) -> None:
         '''
@@ -133,14 +257,19 @@ class Vendedor(Funcionario):
         um número inteiro e levante um TypeError caso contrário; Em seguida verifique
         se n_visitas é positivo e maior que zero, levantando um ValueError caso contrário.
         '''
-        pass
+        if not isinstance(n_visitas, int):
+            raise TypeError("O número de visitas precisa ser um número inteiro")
+        elif n_visitas <= 0:
+            raise ValueError("O número de visitas precisa ser um número inteiro maior que 0")
+        self.visitas_por_mes += n_visitas
+        self.auxilio_transporte_total = self.auxilio_transporte_por_visita * self.visitas_por_mes
 
     def zerar_visitas(self) -> None:
         '''
         Quando chamado deve redefinir o número de visitas realizadas pelo vendedor para zero,
         de modo a começar a contagem para o mês seguinte.
         '''
-        pass
+        self.visitas_por_mes = 0
 
 
 class Empresa:
@@ -152,18 +281,24 @@ class Empresa:
         '''
         Construtor da classe empresa
         '''
+        self.nome = nome
+        self.cnpj = cnpj
+        self.area_atuacao = area_atuacao
+        self.equipe = equipe
+        self.folha_pagto = 0
+        self.dicidio_anual = 0.05
 
     def contrata(self, novo_funcionario: Funcionario) -> None:
         '''
         Contrata um novo funcionário para a empresa (adicionando ele à lista de funcionários)
         '''
-        pass
+        self.equipe.append(novo_funcionario)
 
     def lista_fucionarios(self) -> List[Funcionario]:
         '''
         Devolve um lista com todos os funcionarios
         '''
-        pass
+        return self.equipe
 
     def folha_pagamento(self) -> float:
         '''
@@ -171,7 +306,10 @@ class Empresa:
         DICA: Itere sobre a lista de funcionários, fazendo cada objeto do tipo Funcionário
         calcular o próprio salário e acumule isso numa variável auxiliar.
         '''
-        pass
+        for funcionario in self.lista_fucionarios():
+            self.folha_pagto += funcionario.calcula_salario()
+        return self.folha_pagto
+
 
     def dissidio_anual(self) -> None:
         '''
@@ -179,7 +317,8 @@ class Empresa:
         DICA: idem ao método de folha de pagamento, percorra a lista de funcionários faça
         cada objeto funcionário aumentar o próprio salário base por hora.
         '''
-        pass
+        # for funcionario in self.lista_fucionarios():
+        #     self.equipe.append(funcionario.calcula_salario() + self.dicidio_anual)
 
     def listar_visitas(self) -> Dict[str, int]:
         '''

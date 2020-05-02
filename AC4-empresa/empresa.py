@@ -120,8 +120,7 @@ class Programador(Funcionario):
         cálculo do sálario mensal: calcule o pagamento semanal e considere que o mês
         possui sempre 4.5 semanas.
         '''
-        self.salario = self.carga_horaria_semanal * 4.5 * self.salario_base
-        return self.salario
+        return self.carga_horaria_semanal * 4.5 * self.salario_base
 
     def aumenta_salario(self) -> None:
         '''
@@ -171,8 +170,7 @@ class Estagiario(Funcionario):
         cálculo do sálario mensal: calcule o pagamento semanal e considere que o mês
         possui sempre 4.5 semanas.
         '''
-        self.salario = self.carga_horaria_semanal * 4.5 * self.salario_base + self.auxilio_alimentacao
-        return self.salario
+        return self.carga_horaria_semanal * 4.5 * self.salario_base + self.auxilio_alimentacao
 
     def aumenta_salario(self) -> None:
         '''
@@ -233,9 +231,9 @@ class Vendedor(Funcionario):
         possui sempre 4.5 semanas.
         '''
 
-        self.salario = self.carga_horaria_semanal * 4.5 * self.salario_base
-        self.auxilios = self.auxilio_alimentacao + self.auxilio_transporte_total
-        return self.salario + self.auxilios
+        salario = self.carga_horaria_semanal * 4.5 * self.salario_base
+        auxilios = self.auxilio_alimentacao + self.auxilio_transporte_total
+        return salario + auxilios
 
     def aumenta_salario(self) -> None:
         '''
@@ -321,9 +319,8 @@ class Empresa:
         DICA: idem ao método de folha de pagamento, percorra a lista de funcionários faça
         cada objeto funcionário aumentar o próprio salário base por hora.
         '''
-        aumento_dissidio = 1.05
-        for equipe in self.equipe:
-            equipe.salario_base = equipe.salario_base * aumento_dissidio
+        for funcionario in self.equipe:
+            funcionario.salario_base = funcionario.salario_base * 1.05
 
     def listar_visitas(self) -> Dict[str, int]:
         '''
@@ -334,9 +331,10 @@ class Empresa:
         o funcionário é um vendedor, em caso positivo, adicione as informações pedidas
         ao dicionário, e por fim retorne esse dicionário (não precisa guardar em um atributo).
         '''
+        self.visitas_total = {}
         for funcionario in self.lista_fucionarios():
             if isinstance(funcionario, Vendedor):
-                self.visitas_total[funcionario.nome] = funcionario.numero_visitas
+                self.visitas_total[funcionario.nome] = funcionario.visitas_por_mes
         return self.visitas_total
 
     def zerar_visitas_vendedores(self) -> None:

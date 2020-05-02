@@ -38,12 +38,22 @@ class Funcionario(Pessoa):
         '''
         raise NotImplementedError
 
+    def verifica_carga_horaria(self, carga_horaria: int, carga_horaria_min: int, carga_horaria_max: int) -> None:
+        '''
+        verifica se a carga horária do funcionário respeita o limite de horas
+        Caso o número informado seja inválido, levanta um ValueError
+        '''
+        if not carga_horaria_min <= carga_horaria <= carga_horaria_max:
+            raise ValueError(f"A carga horária deve estar entre {carga_horaria_min} e {carga_horaria_max} horas semanais")
+        else:
+            self.carga_horaria_semanal = carga_horaria
+
     def altera_carga_horaria(self, nova_carga_horaria: int) -> None:
         '''
         altera a carga horária do funcionário, respeitando o limite de horas por categoria.
         Caso o numero informado seja inválido, levanta um ValueError
         '''
-        self.carga_horaria_semanal = nova_carga_horaria
+        raise NotImplementedError
 
     def consulta_carga_horaria(self) -> int:
         '''
@@ -94,24 +104,16 @@ class Programador(Funcionario):
     def __init__(self, nome: str, idade: int, email: str, carga_horaria_semanal: int):
         super().__init__(nome, idade, email, carga_horaria_semanal)
         self.salario_base = 35.00
-        self.verifica_carga_horaria(carga_horaria_semanal)
-
-    def verifica_carga_horaria(self, carga_horaria: int) -> None:
-        '''
-        verifica se a carga horária do programador respeita o limite de horas
-        Caso o número informado seja inválido, levanta um ValueError
-        '''
-        if not 20 <= carga_horaria <= 40:
-            raise ValueError("A carga horária deve estar entre 20 e 40 horas semanais")
-        else:
-            self.carga_horaria_semanal = carga_horaria
+        self.carga_horaria_min = 20
+        self.carga_horaria_max = 40
+        self.verifica_carga_horaria(carga_horaria_semanal, self.carga_horaria_min, self.carga_horaria_max)
 
     def altera_carga_horaria(self, nova_carga_horaria: int) -> None:
         '''
         altera a carga horária do programador, respeitando o limite de horas.
         Caso o numero informado seja inválido, levanta um ValueError
         '''
-        self.verifica_carga_horaria(nova_carga_horaria)
+        self.verifica_carga_horaria(nova_carga_horaria, self.carga_horaria_min, self.carga_horaria_max)
 
     def calcula_salario(self) -> float:
         '''
@@ -144,24 +146,16 @@ class Estagiario(Funcionario):
         super().__init__(nome, idade, email, carga_horaria_semanal)
         self.salario_base = 15.50
         self.auxilio_alimentacao = 250.00
-        self.verifica_carga_horaria(carga_horaria_semanal)
-
-    def verifica_carga_horaria(self, carga_horaria: int) -> None:
-        '''
-        verifica se a carga horária do programador respeita o limite de horas
-        Caso o número informado seja inválido, levanta um ValueError
-        '''
-        if not 16 <= carga_horaria <= 30:
-            raise ValueError("A carga horária deve estar entre 20 e 40 horas semanais")
-        else:
-            self.carga_horaria_semanal = carga_horaria
+        self.carga_horaria_min = 16
+        self.carga_horaria_max = 30
+        self.verifica_carga_horaria(carga_horaria_semanal, self.carga_horaria_min, self.carga_horaria_max)
 
     def altera_carga_horaria(self, nova_carga_horaria: int) -> None:
         '''
         altera a carga horária do programador, respeitando o limite de horas.
         Caso o numero informado seja inválido, levanta um ValueError
         '''
-        self.verifica_carga_horaria(nova_carga_horaria)
+        self.verifica_carga_horaria(nova_carga_horaria, self.carga_horaria_min, self.carga_horaria_max)
 
     def calcula_salario(self) -> float:
         '''
@@ -204,24 +198,16 @@ class Vendedor(Funcionario):
         self.auxilio_transporte_por_visita = 30.00
         self.visitas_por_mes = 0
         self.auxilio_transporte_total = 0
-        self.verifica_carga_horaria(carga_horaria_semanal)
-
-    def verifica_carga_horaria(self, carga_horaria: int) -> None:
-        '''
-        verifica se a carga horária do programador respeita o limite de horas
-        Caso o número informado seja inválido, levanta um ValueError
-        '''
-        if not 15 <= carga_horaria <= 45:
-            raise ValueError("A carga horária deve estar entre 20 e 40 horas semanais")
-        else:
-            self.carga_horaria_semanal = carga_horaria
+        self.carga_horaria_min = 15
+        self.carga_horaria_max = 45
+        self.verifica_carga_horaria(carga_horaria_semanal, self.carga_horaria_min, self.carga_horaria_max)
 
     def altera_carga_horaria(self, nova_carga_horaria: int) -> None:
         '''
         altera a carga horária do programador, respeitando o limite de horas.
         Caso o numero informado seja inválido, levanta um ValueError
         '''
-        self.verifica_carga_horaria(nova_carga_horaria)
+        self.verifica_carga_horaria(nova_carga_horaria, self.carga_horaria_min, self.carga_horaria_max)
 
     def calcula_salario(self) -> float:
         '''

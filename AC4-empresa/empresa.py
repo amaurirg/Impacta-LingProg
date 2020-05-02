@@ -306,9 +306,13 @@ class Empresa:
         DICA: Itere sobre a lista de funcionários, fazendo cada objeto do tipo Funcionário
         calcular o próprio salário e acumule isso numa variável auxiliar.
         '''
+        dic = {}
+        soma = 0
         for funcionario in self.lista_fucionarios():
-            self.folha_pagto += funcionario.calcula_salario()
-        return self.folha_pagto
+            dic[funcionario.nome] = funcionario.calcula_salario()
+        for i in dic:
+            soma += dic[i]
+        return soma
 
 
     def dissidio_anual(self) -> None:
@@ -317,8 +321,9 @@ class Empresa:
         DICA: idem ao método de folha de pagamento, percorra a lista de funcionários faça
         cada objeto funcionário aumentar o próprio salário base por hora.
         '''
-        # for funcionario in self.lista_fucionarios():
-        #     self.equipe.append(funcionario.calcula_salario() + self.dicidio_anual)
+        aumento_dissidio = 1.05
+        for equipe in self.equipe:
+            equipe.salario_base = equipe.salario_base * aumento_dissidio
 
     def listar_visitas(self) -> Dict[str, int]:
         '''
@@ -329,11 +334,16 @@ class Empresa:
         o funcionário é um vendedor, em caso positivo, adicione as informações pedidas
         ao dicionário, e por fim retorne esse dicionário (não precisa guardar em um atributo).
         '''
-        pass
+        for funcionario in self.lista_fucionarios():
+            if isinstance(funcionario, Vendedor):
+                self.visitas_total[funcionario.nome] = funcionario.numero_visitas
+        return self.visitas_total
 
     def zerar_visitas_vendedores(self) -> None:
         '''
         Zera as visitas de todos os funcionário, use a dica do método listar_visitas e
         para cada vendedor, chame o método de zerar visitas do vendedor.
         '''
-        pass
+        for funcionario in self.lista_fucionarios():
+            if isinstance(funcionario, Vendedor):
+                funcionario.zerar_visitas()

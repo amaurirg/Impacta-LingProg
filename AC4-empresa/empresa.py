@@ -122,7 +122,7 @@ class Programador(Funcionario):
         cálculo do sálario mensal: calcule o pagamento semanal e considere que o mês
         possui sempre 4.5 semanas.
         '''
-        return self.carga_horaria_semanal * 4.5 * self.salario_base
+        return round(self.carga_horaria_semanal * 4.5 * self.salario_base, 2)
 
     def aumenta_salario(self) -> None:
         '''
@@ -164,7 +164,7 @@ class Estagiario(Funcionario):
         cálculo do sálario mensal: calcule o pagamento semanal e considere que o mês
         possui sempre 4.5 semanas.
         '''
-        return self.carga_horaria_semanal * 4.5 * self.salario_base + self.auxilio_alimentacao
+        return round(self.carga_horaria_semanal * 4.5 * self.salario_base + self.auxilio_alimentacao, 2)
 
     def aumenta_salario(self) -> None:
         '''
@@ -219,7 +219,7 @@ class Vendedor(Funcionario):
 
         salario = self.carga_horaria_semanal * 4.5 * self.salario_base
         auxilios = self.auxilio_alimentacao + self.auxilio_transporte_total
-        return salario + auxilios
+        return round(salario + auxilios, 2)
 
     def aumenta_salario(self) -> None:
         '''
@@ -270,7 +270,6 @@ class Empresa:
         self.area_atuacao = area_atuacao
         self.equipe = equipe
         self.folha_pagto = 0
-        self.dicidio_anual = 0.05
 
     def contrata(self, novo_funcionario: Funcionario) -> None:
         '''

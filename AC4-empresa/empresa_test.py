@@ -237,3 +237,44 @@ def test_04_folha_pagamento():
     vend2.realizar_visita(10)
     assert emp.folha_pagamento() == 19955.0, 'Folha de pagamento calculada errada'
 # ---------------------------------------------------------------
+
+def test_dissidio_anual():
+    prog = Programador('Julia', 31, 'julia@empresa.com', 40)
+    est = Estagiario('Pedro', 25, 'pedro@empresa.com', 20)
+    vend1 = Vendedor('Mauro', 41, 'mauro@empresa.com', 35)
+    vend2 = Vendedor('Carla', 36, 'carla@empresa.com', 45)
+    emp = Empresa('ACME', 123456789, 'Tecnologia', [])
+    emp.contrata(prog)
+    emp.contrata(est)
+    emp.contrata(vend1)
+    emp.contrata(vend2)
+    vend1.realizar_visita(7)
+    vend2.realizar_visita(10)
+    assert prog.calcula_salario() == 6300.0, 'Salário do programador calculado incorretamente'
+    assert est.calcula_salario() == 1645.0, 'Salário do estagiário calculado incorretamente'
+    assert vend1.calcula_salario() == 5285.0, 'Salário do vendedor calculado incorretamente'
+    assert vend2.calcula_salario() == 6725.0, 'Salário do vendedor calculado incorretamente'
+    assert emp.folha_pagamento() == 19955.0, 'Folha de pagamento calculada errada'
+    emp.dissidio_anual()
+    assert prog.calcula_salario() == 6615, 'Salário do programador calculado incorretamente'
+    assert est.calcula_salario() == 1714.75, 'Salário do estagiário calculado incorretamente' # (1645.0 - 250) * 1.05 + 250
+    assert vend1.calcula_salario() == 5521.25, 'Salário do vendedor calculado incorretamente' # ((5285.0 - 350 - 210) * 1.05) + (350 + 210)
+    assert vend2.calcula_salario() == 7028.75, 'Salário do vendedor calculado incorretamente' # ((6725.0 - 350 - 300) * 1.05) + (350 + 300)
+    assert emp.folha_pagamento() == 20879.75, 'Folha de pagamento calculada errada'
+
+
+def test_zera_todas_visitas():
+    prog = Programador('Julia', 31, 'julia@empresa.com', 40)
+    est = Estagiario('Pedro', 25, 'pedro@empresa.com', 20)
+    vend1 = Vendedor('Mauro', 41, 'mauro@empresa.com', 35)
+    vend2 = Vendedor('Carla', 36, 'carla@empresa.com', 45)
+    emp = Empresa('ACME', 123456789, 'Tecnologia', [])
+    emp.contrata(prog)
+    emp.contrata(est)
+    emp.contrata(vend1)
+    emp.contrata(vend2)
+    vend1.realizar_visita(7)
+    vend2.realizar_visita(10)
+    assert emp.listar_visitas() == {'Mauro': 7, 'Carla': 10}, 'A quantidade de visitas foi retornada errada'
+    emp.zerar_visitas_vendedores()
+    assert emp.listar_visitas() == {'Mauro': 0, 'Carla': 0}, 'A quantidade de visitas foi retornada errada'

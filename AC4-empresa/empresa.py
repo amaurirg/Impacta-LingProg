@@ -319,7 +319,7 @@ class Empresa:
         self.visitas_total = {}
         for funcionario in self.lista_fucionarios():
             if isinstance(funcionario, Vendedor):
-                self.visitas_total[funcionario.nome] = funcionario.visitas_por_mes
+                self.visitas_total[funcionario.email] = funcionario.visitas_por_mes
         return self.visitas_total
 
     def zerar_visitas_vendedores(self) -> None:

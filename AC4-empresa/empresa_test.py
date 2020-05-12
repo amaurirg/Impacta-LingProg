@@ -275,6 +275,6 @@ def test_zera_todas_visitas():
     emp.contrata(vend2)
     vend1.realizar_visita(7)
     vend2.realizar_visita(10)
-    assert emp.listar_visitas() == {'Mauro': 7, 'Carla': 10}, 'A quantidade de visitas foi retornada errada'
+    assert emp.listar_visitas() == {'mauro@empresa.com': 7, 'carla@empresa.com': 10}, 'A quantidade de visitas foi retornada errada'
     emp.zerar_visitas_vendedores()
-    assert emp.listar_visitas() == {'Mauro': 0, 'Carla': 0}, 'A quantidade de visitas foi retornada errada'
+    assert emp.listar_visitas() == {'mauro@empresa.com': 0, 'carla@empresa.com': 0}, 'A quantidade de visitas foi retornada errada'

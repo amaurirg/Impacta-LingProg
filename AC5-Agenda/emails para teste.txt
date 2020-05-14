@@ -1,0 +1,32 @@
+inválidos
+
+amauriimpacta.com.br
+am.au-ri@gm-ai.l
+a@g
+ama@uri@facul.edu
+ama-uri@aluno.facul.
+ama-uri.giova-ni333@aluno.facul
+ama-uri.giova-ni333@.br
+@amauriimpacta.com.br
+amauriimpacta@.com.br
+
+
+válidos
+
+amauri@impacta.com.br
+am.au-ri@gm-ai.l.com
+a@gm.com
+amauri@facul.edu
+ama-uri@aluno.facul.edu
+ama-uri.giova-ni333@aluno.facul.uk
+ama-uri.giova-ni333@aluno.facul-dade.br
+
+
+reg_aluno = re.compile(r'@aluno\.faculdadeimpacta\.com\.br$')
+reg_nao_aluno = re.compile(r'@faculdadeimpacta\.com\.br$')
+
+email_aluno = "aluno@aluno.faculdadeimpacta.com.br"
+email_impacta = "professor@faculdadeimpacta.com.br"
+email_nao_impacta = "qq_pessoa@outro_dominio.com.br"
+
+

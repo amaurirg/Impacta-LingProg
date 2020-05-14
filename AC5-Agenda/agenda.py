@@ -5,7 +5,7 @@
 
 from typing import List, Tuple
 import json
-
+import re
 
 def dumper(obj):
     """
@@ -118,14 +118,14 @@ class Email:
         isto é, deve ser usado o atributo público `self.email`, da mesma
         forma que foi feito no construtor de Telefone.
         """
-        pass
+        self.email = email
 
     @property
     def email(self) -> str:
         """
         Retorna o endereço de email (o atributo protegido -> apenas um _ )
         """
-        pass
+        return self._email
 
     @email.setter
     def email(self, email: str) -> None:
@@ -136,7 +136,9 @@ class Email:
         DICA: Se o email for válido, defina também mais outros dois atributos
               protegidos para guardar o usuario e o dominio do email
         """
-        pass
+        if self.valida_email(email):
+            self._email = email
+
 
     @staticmethod
     def valida_email(email: str) -> bool:
@@ -175,7 +177,14 @@ class Email:
           zero. Caso alguém esteja na dúvida, o módulo de regex faz parte
           e pode ser usado se assim desejarem)
         """
-        pass
+
+        reg = re.compile(r'^[A-Za-z0-9_.-]+@\w+([A-Za-z0-9_.-]+\.)+[A-Za-z]{2,3}$')
+
+        if not isinstance(email, str):
+            raise TypeError('O email deve ser uma string contendo nome@dominio')
+        if not reg.search(email):
+            raise ValueError("Email inválido!")
+        return True
 
     @property
     def eh_aluno_impacta(self) -> bool:
@@ -183,7 +192,10 @@ class Email:
         Retorna True se o dominio completo do email (parte depois do @)
         for igual à 'aluno.faculdadeimpacta.com.br', False caso contrário
         """
-        pass
+        reg = re.compile(r'@aluno\.faculdadeimpacta\.com\.br$')
+        if not reg.search(self._email):
+            return False
+        return True
 
     @property
     def eh_impacta(self) -> bool:
@@ -191,7 +203,10 @@ class Email:
         Retorna True se a string 'faculdadeimpacta.com.br' estiver
         contida no dominio do email (parte depois do @), False caso contrário
         """
-        pass
+        reg = re.compile(r'@faculdadeimpacta\.com\.br$')
+        if not reg.search(self._email):
+            return False
+        return True
 
     def __eq__(self, other):
         """

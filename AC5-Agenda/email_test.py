@@ -49,3 +49,20 @@ def test_eh_impacta():
     e = Email("professor@faculdadeimpacta.com.br")
     assert e.eh_impacta == True
 
+
+def test_nao_eh_impacta():
+    e = Email("professor@outrafaculdade.com.br")
+    assert e.eh_impacta == False
+
+
+def test_to_json():
+    e = Email("aluno@aluno.faculdadeimpacta.com.br")
+    assert e.to_json() == "aluno@aluno.faculdadeimpacta.com.br"
+
+
+def test__eq__():
+    pass
+
+def test__repr__():
+    e = Email("aluno@aluno.faculdadeimpacta.com.br")
+    assert e.__repr__() == '<Email: aluno@aluno.faculdadeimpacta.com.br>'

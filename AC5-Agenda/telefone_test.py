@@ -71,4 +71,4 @@ def test_to_json():
 
 def test__repr__():
     tel = Telefone("123456789")
-    assert tel.__repr__() == f'<Telefone: 123456789>'
+    assert tel.__repr__() == '<Telefone: 123456789>'

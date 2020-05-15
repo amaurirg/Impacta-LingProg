@@ -232,17 +232,17 @@ class Email:
         Retorna o endereço de email para ser a representação serializada
         de email no arquivo json.
         """
-        pass
+        return self.email
 
     def __repr__(self) -> str:
         """
         Retorna uma string representando o objeto do tipo email
         Siga o padrão usado para a representação de Telefone
         """
-        pass
+        return f'<Email: {self.email}>'
 
 
-class Contato:
+class Contato(Telefone, Email):
     """ (4,0 pontos)
     Classe para representar um contato
 
@@ -269,14 +269,20 @@ class Contato:
     """
 
     def __init__(self, nome: str, telefone: str, email: str):
-        pass
+        self._nome = nome
+        self.telefones = {}
+        self.emails = {}
+        super(Telefone).__init__(telefone)
+        super(Email).__init__(email)
+        self._telefone = telefone
+        self._email = email
 
     @property
     def nome(self) -> str:
         """
         Retorna o valor do atributo protegido nome
         """
-        pass
+        return self._nome
 
     @nome.setter
     def nome(self, nome: str) -> None:
@@ -284,7 +290,13 @@ class Contato:
         Verifica as condições definidas para validação do nome e
         atribui o valor à variável protegida _nome se estiverem OK
         """
-        pass
+        if not isinstance(nome, str):
+            raise TypeError("O nome deve ser do tipo string")
+        elif nome == '':
+            raise CreateContactError("O nome não foi informado!")
+        else:
+            self._nome = nome
+
 
     def adiciona_telefone(self, telefone: str, tipo='principal') -> None:
         """

@@ -7,12 +7,9 @@ def test_cria_contato():
     except TypeError:
         assert False, "Erro ao criar o contato"
     else:
-        assert hasattr(c, '_nome')
-        assert not hasattr(c, 'telefone')
-        assert not hasattr(c, 'email')
-        assert c._nome == "Aluno"
-        assert c._telefone == "1199999-9999"
-        assert c._email == "aluno@aluno.faculdadeimpacta.com.br"
+        assert c.nome == "Aluno"
+        assert c.telefone == "1199999-9999"
+        assert c.email == "aluno@aluno.faculdadeimpacta.com.br"
 
 
 def test_nao_cria_contato():

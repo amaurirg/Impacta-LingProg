@@ -269,13 +269,11 @@ class Contato(Telefone, Email):
     """
 
     def __init__(self, nome: str, telefone: str, email: str):
-        self._nome = nome
+        self.nome = nome
         self.telefones = {}
         self.emails = {}
-        super(Telefone).__init__(telefone)
-        super(Email).__init__(email)
-        self._telefone = telefone
-        self._email = email
+        Telefone.__init__(self, telefone)
+        Email.__init__(self, email)
 
     @property
     def nome(self) -> str:
@@ -306,7 +304,7 @@ class Contato(Telefone, Email):
         de Telefone.
         Se o tipo não for passado, deve ser por padrão tipo 'principal'.
         """
-        pass
+        super().valida_telefone(telefone)
 
     def adiciona_email(self, email: str, tipo='principal') -> None:
         """

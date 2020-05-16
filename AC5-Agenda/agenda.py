@@ -242,7 +242,7 @@ class Email:
         return f'<Email: {self.email}>'
 
 
-class Contato(Telefone, Email):
+class Contato():
     """ (4,0 pontos)
     Classe para representar um contato
 
@@ -269,11 +269,12 @@ class Contato(Telefone, Email):
     """
 
     def __init__(self, nome: str, telefone: str, email: str):
+        # Telefone.__init__(self, telefone)
+        # Email.__init__(self, email)
         self.nome = nome
-        self.telefones = {}
-        self.emails = {}
-        Telefone.__init__(self, telefone)
-        Email.__init__(self, email)
+        self.telefones = {'principal': Telefone(telefone)}
+        self.emails = {'principal': Email(email)}
+
 
     @property
     def nome(self) -> str:
@@ -304,7 +305,8 @@ class Contato(Telefone, Email):
         de Telefone.
         Se o tipo não for passado, deve ser por padrão tipo 'principal'.
         """
-        super().valida_telefone(telefone)
+        if super().valida_telefone(telefone):
+            self.telefones[tipo] = Telefone(telefone)
 
     def adiciona_email(self, email: str, tipo='principal') -> None:
         """
@@ -334,7 +336,7 @@ class Contato(Telefone, Email):
         """
         Retorna o dicionário de telefones
         """
-        pass
+        return self.telefones
 
     def get_emails(self):
         """

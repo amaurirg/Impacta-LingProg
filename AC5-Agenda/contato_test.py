@@ -29,5 +29,6 @@ def test_adiciona_telefone():
     c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
     c.adiciona_telefone("113322-4567", "fixo")
     c.adiciona_telefone("1198888-8888", "celular")
-    assert c.telefones == {'principal': Telefone("1199999-9999"), 'fixo': Telefone("113322-4567"),
-                           'celular': Telefone("1198888-8888")}
+    assert c.get_telefones()['principal'] == Telefone("1199999-9999")
+    assert c.get_telefones()['fixo'] == Telefone("113322-4567")
+    assert c.get_telefones()['celular'] == Telefone("1198888-8888")

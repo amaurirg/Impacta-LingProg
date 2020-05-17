@@ -305,7 +305,7 @@ class Contato():
         de Telefone.
         Se o tipo não for passado, deve ser por padrão tipo 'principal'.
         """
-        if super().valida_telefone(telefone):
+        if Telefone.valida_telefone(telefone):
             self.telefones[tipo] = Telefone(telefone)
 
     def adiciona_email(self, email: str, tipo='principal') -> None:

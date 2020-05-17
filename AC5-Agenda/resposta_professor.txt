@@ -1,0 +1,5 @@
+Olá Amauri, Leonardo, a parte do __eq__ é para que ao compararmos diretamente os objetos do tipo email
+(email1 == email2) ou verificarmos o pertencimento a uma lista (email1 in lista_com_objetos_email) ele
+use a lógica implementada neste método para decidir se os objetos são ou não iguais, ou se está ou não
+na lista. Vocês não precisam alterar esse método, implementei ele para facilitar a comparação entre emails
+nas outras classes em que isso possa ser necessário.

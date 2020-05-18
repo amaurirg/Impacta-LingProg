@@ -242,7 +242,7 @@ class Email:
         return f'<Email: {self.email}>'
 
 
-class Contato(Telefone, Email):
+class Contato():
     """ (4,0 pontos)
     Classe para representar um contato
 
@@ -270,10 +270,10 @@ class Contato(Telefone, Email):
 
     def __init__(self, nome: str, telefone: str, email: str):
         self.nome = nome
-        self.telefones = {}
-        self.emails = {}
-        Telefone.__init__(self, telefone)
-        Email.__init__(self, email)
+        self.telefones = {'principal': Telefone(telefone)}
+        self.emails = {'principal': Email(email)}
+        # Telefone.__init__(self, telefone)
+        # Email.__init__(self, email)
 
     @property
     def nome(self) -> str:
@@ -304,7 +304,8 @@ class Contato(Telefone, Email):
         de Telefone.
         Se o tipo não for passado, deve ser por padrão tipo 'principal'.
         """
-        super().valida_telefone(telefone)
+        if Telefone.valida_telefone(telefone):
+            self.telefones[tipo] = Telefone(telefone)
 
     def adiciona_email(self, email: str, tipo='principal') -> None:
         """
@@ -314,33 +315,38 @@ class Contato(Telefone, Email):
         de Email.
         Se o tipo não for passado, por padrão o tipo 'principal' é atualizado.
         """
-        pass
+        if Email.valida_email(email):
+            self.emails[tipo] = Email(email)
 
     def apaga_telefone(self, tipo):
         """
         Exclui o telefone dado em `tipo` do dicionário de emails, mas não deve permitir a
         exclusão do tipo 'principal', levantando um DeleteError nesse caso
         """
-        pass
+        if tipo == 'principal':
+            raise DeleteError("Não pode apagar o telefone principal")
+        self.telefones.pop(tipo)
 
     def apaga_email(self, tipo):
         """
         Exclui o email dado em `tipo` do dicionário de emails, mas não deve permitir a
         exclusão do tipo 'principal', levantando um DeleteError nesse caso
         """
-        pass
+        if tipo == 'principal':
+            raise DeleteError("Não pode apagar o telefone principal")
+        self.emails.pop(tipo)
 
     def get_telefones(self):
         """
         Retorna o dicionário de telefones
         """
-        pass
+        return self.telefones
 
     def get_emails(self):
         """
         Retorna o dicionário de emails
         """
-        pass
+        return self.emails
 
     def lista_telefones(self) -> List[Tuple[str, Telefone]]:
         """

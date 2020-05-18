@@ -55,14 +55,23 @@ def test_adiciona_telefone():
     assert c.get_telefones()['celular'] == TelefoneAtualizado("1198888-8888")
 
 
+def test_adiciona_outro_telefone_como_principal():
+    c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
+    try:
+        c.adiciona_telefone("1198888-8888")
+    except ValueError:
+        pass
+    assert c.get_telefones()['principal'] == TelefoneAtualizado("1198888-8888")
+
+
 def test_adiciona_telefone_invalido_1():
     c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
     try:
-        # c.adiciona_telefone("11332211-456789", "fixo")
-        # c.adiciona_telefone("1198888", "celular")
-        # c.adiciona_telefone('', "fixo")
+        c.adiciona_telefone("11332211-456789", "fixo")
+        c.adiciona_telefone("1198888", "celular")
+        c.adiciona_telefone('', "fixo")
         # c.adiciona_telefone("1199999-9999", "principal")
-        c.adiciona_telefone("1198888-8888")
+        # c.adiciona_telefone("1198888-8888")
     except ValueError:
         pass
     # else:
@@ -91,3 +100,37 @@ def test_adiciona_email():
     assert c.get_emails()['principal'] == Email('aluno@aluno.faculdadeimpacta.com.br')
     assert c.get_emails()['particular'] == Email('aluno@gmail.com')
     assert c.get_emails()['extra'] == Email('aluno@outrodominio.com.br')
+
+
+def test_adiciona_outro_email_como_principal():
+    c = Contato("Funcionario", "1199999-9999", "funcionario@secretaria.faculdadeimpacta.com.br")
+    assert c.get_emails()['principal'] == Email("funcionario@secretaria.faculdadeimpacta.com.br")
+    try:
+        c.adiciona_email("funcionario@tutoria.faculdadeimpacta.com.br")
+    except ValueError:
+        pass
+    assert c.get_emails()['principal'] == Email("funcionario@tutoria.faculdadeimpacta.com.br")
+
+
+def test_adiciona_email_invalido_1():
+    c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
+    try:
+        c.adiciona_email("aluno.faculdadeimpacta.com.br")
+        c.adiciona_email("aluno@aluno.faculdadeimpacta.com.br")
+    except ValueError:
+        pass
+    else:
+        raise AssertionError('O email deve conter @ e domínio corretamente')
+    assert c.get_emails()['principal'] == Email("aluno@aluno.faculdadeimpacta.com.br")
+
+
+def test_adiciona_email_invalido_2():
+    c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
+    try:
+        c.adiciona_email(123)
+        c.adiciona_email(12.30)
+    except TypeError:
+        pass
+    else:
+        raise AssertionError('Email deve ser do tipo string')
+    assert c.get_emails()['principal'] == Email("aluno@aluno.faculdadeimpacta.com.br")

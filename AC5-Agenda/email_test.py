@@ -11,11 +11,15 @@ def test_cria_email_valido():
         "ama-uri.giova-ni333@aluno.facul-dade.br"
     ]
     for email in emails:
-        assert Email.valida_email(email) == True
+        e = Email(email)
+        assert isinstance(e, Email) == True
+        assert e.email == email
 
 
 def test_cria_email_invalido_1():
     emails = [
+        '',
+        "aluno 1@impacta.com.br",
         "amauri@@impacta.com.br",
         "amauri..impacta.com.br",
         "amauriimpacta.com.br",
@@ -37,6 +41,23 @@ def test_cria_email_invalido_1():
         try:
             Email(email)
         except ValueError:
+            pass
+        except Exception:
+            raise AssertionError('Levantou um erro de tipo diferente do pedido')
+        else:
+            raise AssertionError('Não levantou erro para email inválido')
+
+
+def test_cria_email_invalido_2():
+    emails = [
+        123,
+        12.5,
+        Email("email@email.com")
+    ]
+    for email in emails:
+        try:
+            Email(email)
+        except TypeError:
             pass
         else:
             raise AssertionError("Não pode criar instância com e-mail inválido!")
@@ -74,12 +95,13 @@ def test__eq__():
     e2.__eq__(Email("aluno@aluno.faculdadeimpacta.com.br"))
     assert e1.email == "aluno@aluno.faculdadeimpacta.com.br"
     assert e2.email == "aluno@aluno.faculdadeimpacta.com.br"
-email1.__eq__(e1)
+
 
 def test__eq__2():
     e1 = Email("aluno1@aluno.faculdadeimpacta.com.br")
     e2 = Email("aluno2@aluno.faculdadeimpacta.com.br")
-    assert e1.email == "aluno@aluno.faculdadeimpacta.com.br"
+    assert e1.email == "aluno1@aluno.faculdadeimpacta.com.br"
+    assert e2.email == "aluno2@aluno.faculdadeimpacta.com.br"
 
 
 def test__repr__():

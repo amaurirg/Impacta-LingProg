@@ -16,9 +16,15 @@ def test_cria_email_valido():
 
 def test_cria_email_invalido_1():
     emails = [
+        "amauri@@impacta.com.br",
+        "amauri..impacta.com.br",
         "amauriimpacta.com.br",
+        "amauri_giovani@impacta.com.br",
         "am.au-ri@gm-ai.l",
         "a@g",
+        "a@g.com.b",
+        "aluno@gmail.com.brasil",
+        "a@g.com",
         "ama@uri@facul.edu",
         "ama-uri@aluno.facul.",
         "ama-uri.giova-ni333@aluno.facul",
@@ -62,7 +68,19 @@ def test_to_json():
 
 
 def test__eq__():
-    pass
+    e1 = Email("aluno@aluno.faculdadeimpacta.com.br")
+    e2 = Email("aluno@aluno.faculdadeimpacta.com.br")
+    e1.__eq__(Email("aluno@aluno.faculdadeimpacta.com.br"))
+    e2.__eq__(Email("aluno@aluno.faculdadeimpacta.com.br"))
+    assert e1.email == "aluno@aluno.faculdadeimpacta.com.br"
+    assert e2.email == "aluno@aluno.faculdadeimpacta.com.br"
+email1.__eq__(e1)
+
+def test__eq__2():
+    e1 = Email("aluno1@aluno.faculdadeimpacta.com.br")
+    e2 = Email("aluno2@aluno.faculdadeimpacta.com.br")
+    assert e1.email == "aluno@aluno.faculdadeimpacta.com.br"
+
 
 def test__repr__():
     e = Email("aluno@aluno.faculdadeimpacta.com.br")

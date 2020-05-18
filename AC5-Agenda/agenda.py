@@ -138,7 +138,7 @@ class Email:
         """
         if self.valida_email(email):
             self._email = email
-
+            self.usuario, self.dominio = email.split("@")
 
     @staticmethod
     def valida_email(email: str) -> bool:
@@ -203,7 +203,7 @@ class Email:
         Retorna True se a string 'faculdadeimpacta.com.br' estiver
         contida no dominio do email (parte depois do @), False caso contrário
         """
-        reg = re.compile(r'faculdadeimpacta\.com\.br$')
+        reg = re.compile(r'(@|\.){1}faculdadeimpacta\.com\.br$')
         if not reg.search(self._email):
             return False
         return True

@@ -90,8 +90,9 @@ class TestEmail:
         e2 = Email('teste@impacta.com.br')
         e3 = Email('teste@faculdadeimpacta.com')
         e4 = Email('teste@faculdadeimpacta.edu.br')
+        e5 = Email('teste@qqcoisafaculdadeimpacta.com.br')
         msg = 'todos os emails criados deveriam retornar False para a property eh_impacta'
-        assert not any([e.eh_impacta for e in [e1, e2, e3, e4]]), msg
+        assert not any([e.eh_impacta for e in [e1, e2, e3, e4, e5]]), msg
 
 
 class TestContato:

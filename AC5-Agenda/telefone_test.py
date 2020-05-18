@@ -1,6 +1,29 @@
 from agenda import Telefone
 
 
+from agenda import (Contato, CreateContactError, DeleteError,
+                    Email, Telefone)
+
+
+class TelefoneAtualizado(Telefone):
+    """
+    Eu esqueci de incluir este método na classe de Telefone, então
+    estou criando esta classe para poder adicionar o método à classe Telefone
+    sem que vocês precisem editar o código de vocês. Basta usar a nova classe
+    que criei durantes os testes, como fiz.
+
+    Portanto NÃO INCLUAM este método na classe Telefone de vocês.
+    """
+
+    def __eq__(self, other):
+        if not isinstance(other, Telefone):
+            raise TypeError('Não é possível comparar um Telefone com '
+                            'objetos de outro tipo')
+        n_self = self.telefone.replace('-', '')
+        n_other = other.telefone.replace('-', '')
+        return n_self == n_other
+
+
 def test_valida_telefone_valido():
     try:
         tel1 = Telefone("123456789")

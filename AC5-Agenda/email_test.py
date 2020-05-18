@@ -24,7 +24,8 @@ def test_cria_email_invalido_1():
         "ama-uri.giova-ni333@aluno.facul",
         "ama-uri.giova-ni333@.br",
         "@amauriimpacta.com.br",
-        "amauriimpacta@.com.br"
+        "amauriimpacta@.com.br",
+        "amauri@impacta@faculdade.com.br"
     ]
     for email in emails:
         try:

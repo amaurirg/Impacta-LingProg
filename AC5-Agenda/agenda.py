@@ -178,7 +178,7 @@ class Email:
           e pode ser usado se assim desejarem)
         """
 
-        reg = re.compile(r'^[A-Za-z0-9_.-]+@\w+([A-Za-z0-9_.-]+\.)+[A-Za-z]{2,3}$')
+        reg = re.compile(r'^[A-Za-z0-9.-]+@\w+([A-Za-z0-9.-]+\.)+[A-Za-z]{2,3}$')
 
         if not isinstance(email, str):
             raise TypeError('O email deve ser uma string contendo nome@dominio')
@@ -203,7 +203,7 @@ class Email:
         Retorna True se a string 'faculdadeimpacta.com.br' estiver
         contida no dominio do email (parte depois do @), False caso contrário
         """
-        reg = re.compile(r'@faculdadeimpacta\.com\.br$')
+        reg = re.compile(r'faculdadeimpacta\.com\.br$')
         if not reg.search(self._email):
             return False
         return True

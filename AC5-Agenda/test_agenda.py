@@ -159,14 +159,18 @@ class TestContato:
 
     def test_11_apaga_telefone_principal(self):
         c1 = Contato('Rafael', '11999777888', 'rafael@exemplo.com')
-        try:
-            c1.apaga_telefone('principal')
-        except DeleteError:
-            pass
-        except Exception:
-            raise AssertionError('Levantou o tipo de erro incorreto')
-        else:
-            raise AssertionError('Não levantou erro ao tentar apagar o telefone principal')
+        lista_tipos = ['principal', 'outro_tipo']
+        for tipo in lista_tipos:
+            try:
+                c1.apaga_telefone(tipo)
+            except DeleteError:
+                pass
+            except KeyError:
+                pass
+            except Exception:
+                raise AssertionError('Levantou o tipo de erro incorreto')
+            else:
+                raise AssertionError('Não levantou erro ao tentar apagar o telefone principal')
 
     def test_12_adiciona_email(self):
         c1 = Contato('Rafael', '11999777888', 'rafael@exemplo.com')
@@ -199,11 +203,15 @@ class TestContato:
 
     def test_14_apaga_email_principal(self):
         c1 = Contato('Rafael', '11999777888', 'rafael@exemplo.com')
-        try:
-            c1.apaga_email('principal')
-        except DeleteError:
-            pass
-        except Exception:
-            raise AssertionError('Levantou o tipo de erro incorreto')
-        else:
-            raise AssertionError('Não levantou erro ao tentar apagar o email principal')
+        lista_tipos = ['principal', 'outro_tipo']
+        for tipo in lista_tipos:
+            try:
+                c1.apaga_email(tipo)
+            except DeleteError:
+                pass
+            except KeyError:
+                pass
+            except Exception:
+                raise AssertionError('Levantou o tipo de erro incorreto')
+            else:
+                raise AssertionError('Não levantou erro ao tentar apagar o email principal')

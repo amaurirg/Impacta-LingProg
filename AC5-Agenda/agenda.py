@@ -272,8 +272,6 @@ class Contato():
         self.nome = nome
         self.telefones = {'principal': Telefone(telefone)}
         self.emails = {'principal': Email(email)}
-        # Telefone.__init__(self, telefone)
-        # Email.__init__(self, email)
 
     @property
     def nome(self) -> str:
@@ -325,6 +323,9 @@ class Contato():
         """
         if tipo == 'principal':
             raise DeleteError("Não pode apagar o telefone principal")
+        elif not tipo in self.telefones:
+            raise KeyError("Tipo de telefone não encontrado")
+            # return "Chave inválida"
         self.telefones.pop(tipo)
 
     def apaga_email(self, tipo):
@@ -333,7 +334,10 @@ class Contato():
         exclusão do tipo 'principal', levantando um DeleteError nesse caso
         """
         if tipo == 'principal':
-            raise DeleteError("Não pode apagar o telefone principal")
+            raise DeleteError("Não pode apagar o email principal")
+        elif not tipo in self.emails:
+                raise KeyError("Tipo de email não encontrado")
+            # return "Chave inválida"
         self.emails.pop(tipo)
 
     def get_telefones(self):

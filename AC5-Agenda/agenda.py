@@ -362,7 +362,7 @@ class Contato():
         DICA: usem o método items() de dicionários e convertam o resultado
         para uma lista com list().
         """
-        pass
+        return [(tipo, telefone) for tipo, telefone in self.telefones.items()]
 
     def lista_emails(self) -> List[Tuple[str, Email]]:
         """
@@ -374,7 +374,7 @@ class Contato():
         DICA: usem o método items() de dicionários e convertam o resultado
         para uma lista com list().
         """
-        pass
+        return [(tipo, email) for tipo, email in self.emails.items()]
 
     def buscar(self, valor_busca: str):
         """
@@ -394,6 +394,8 @@ class Contato():
             'joao345@exemplo.com'
         """
         pass
+        # if isinstance(valor_busca, Telefone)
+        # if isinstance(valor_busca, Email)
 
     def create_dump(self):
         """

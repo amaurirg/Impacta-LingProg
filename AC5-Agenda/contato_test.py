@@ -102,7 +102,7 @@ def test_adiciona_telefone_invalido_2():
     c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
     try:
         c.adiciona_telefone(1198888, "celular")
-        c.adiciona_telefone(11.98888-8888, "celular")
+        c.adiciona_telefone(11.98888 - 8888, "celular")
     except TypeError:
         pass
     else:
@@ -171,3 +171,145 @@ def test_adiciona_email_invalido_2():
         else:
             raise AssertionError('Email deve ser do tipo string')
         assert c.get_emails()['principal'] == Email("aluno@aluno.faculdadeimpacta.com.br")
+
+
+def test_apaga_telefone():
+    c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
+    c.adiciona_telefone("113322-4567", "fixo")
+    c.adiciona_telefone("1198888-8888", "celular")
+    c.apaga_telefone('fixo')
+    c.apaga_telefone('celular')
+    assert not any(['fixo' in c.get_telefones()])
+    assert not any(['celular' in c.get_telefones()])
+    assert c.get_telefones()['principal'] == TelefoneAtualizado("1199999-9999")
+
+
+def test_apaga_telefone_tipo_nao_existe():
+    c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
+    c.adiciona_telefone("113322-4567", "fixo")
+    c.adiciona_telefone("1198888-8888", "celular")
+    tipos = ['particular', '1198888-8888', 11988888888]
+    for tipo in tipos:
+        try:
+            c.apaga_telefone(tipo)
+        except KeyError:
+            pass
+        else:
+            raise AssertionError("Não levantou erro para chave inexistente")
+    assert c.get_telefones()['principal'] == TelefoneAtualizado("1199999-9999")
+    assert c.get_telefones()['fixo'] == TelefoneAtualizado("113322-4567")
+    assert c.get_telefones()['celular'] == TelefoneAtualizado("1198888-8888")
+
+
+def test_apaga_email():
+    c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
+    c.adiciona_email("aluno@gmail.com", "particular")
+    c.adiciona_email("nome@trabalho.com.br", "trabalho")
+    c.apaga_email('particular')
+    c.apaga_email('trabalho')
+    assert not any(['particular' in c.get_emails()])
+    assert not any(['trabalho' in c.get_emails()])
+    assert c.get_emails() == {'principal': Email("aluno@aluno.faculdadeimpacta.com.br")}
+    assert c.get_emails()['principal'] == Email("aluno@aluno.faculdadeimpacta.com.br")
+
+
+def test_apaga_email_tipo_nao_existe():
+    c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
+    c.adiciona_email("aluno@gmail.com", "particular")
+    c.adiciona_email("nome@trabalho.com.br", "trabalho")
+    tipos = ['faculdade', 'empresa', 11988888888, 'aluno@aluno.faculdadeimpacta.com.br']
+    for tipo in tipos:
+        try:
+            c.apaga_email(tipo)
+        except KeyError:
+            pass
+        else:
+            raise AssertionError("Não levantou erro para chave inexistente")
+    assert c.get_emails()['principal'] == Email("aluno@aluno.faculdadeimpacta.com.br")
+    assert c.get_emails()['particular'] == Email("aluno@gmail.com")
+    assert c.get_emails()['trabalho'] == Email("nome@trabalho.com.br")
+    assert c.get_emails() == {'principal': Email("aluno@aluno.faculdadeimpacta.com.br"),
+                              'particular': Email("aluno@gmail.com"),
+                              'trabalho': Email("nome@trabalho.com.br")}
+
+
+def test_get_telefones():
+    c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
+    c.adiciona_telefone("113322-4567", "fixo")
+    c.adiciona_telefone("1198888-8888", "celular")
+    assert c.get_telefones() == {'principal': TelefoneAtualizado('1199999-9999'),
+                                 'fixo': TelefoneAtualizado('113322-4567'),
+                                 'celular': TelefoneAtualizado('1198888-8888')}
+
+
+def test_get_emails():
+    c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
+    c.adiciona_email("aluno@gmail.com", "particular")
+    c.adiciona_email("aluno@outrodominio.com.br", "extra")
+    assert c.get_emails() == {'principal': Email("aluno@aluno.faculdadeimpacta.com.br"),
+                              'particular': Email("aluno@gmail.com"),
+                              'extra': Email("aluno@outrodominio.com.br")}
+
+
+def test_lista_telefones():
+    c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
+    c.adiciona_telefone("113322-4567", "fixo")
+    c.adiciona_telefone("1198888-8888", "celular")
+    assert c.lista_telefones() == [('principal', TelefoneAtualizado('1199999-9999')),
+                                 ('fixo', TelefoneAtualizado('113322-4567')),
+                                 ('celular', TelefoneAtualizado('1198888-8888'))]
+
+
+def test_lista_emails():
+    c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
+    c.adiciona_email("aluno@gmail.com", "particular")
+    c.adiciona_email("aluno@outrodominio.com.br", "extra")
+    assert c.lista_emails() == [('principal', Email("aluno@aluno.faculdadeimpacta.com.br")),
+                               ('particular', Email("aluno@gmail.com")),
+                                ('extra', Email("aluno@outrodominio.com.br"))]
+
+
+def test_buscar():
+    c1 = Contato("Aluno1", "115111-1111", "aluno1@aluno.faculdadeimpacta.com.br")
+    c1.adiciona_telefone("111111-1111", "fixo")
+    c1.adiciona_telefone("1191111-1111", "celular")
+    c1.adiciona_email("aluno11@aluno.faculdadeimpacta.com.br", "email2")
+    c1.adiciona_email("aluno111@aluno.faculdadeimpacta.com.br", "email3")
+    c2 = Contato("Aluno2", "115222-2222", "aluno2@aluno.faculdadeimpacta.com.br")
+    c2.adiciona_telefone("112222-2222", "fixo")
+    c2.adiciona_telefone("1192222-2222", "celular")
+    c2.adiciona_email("aluno22@aluno.faculdadeimpacta.com.br", "email2")
+    c2.adiciona_email("aluno222@aluno.faculdadeimpacta.com.br", "email3")
+    c3 = Contato("Aluno3", "115333-3333", "aluno3@aluno.faculdadeimpacta.com.br")
+    c3.adiciona_telefone("113333-3333", "fixo")
+    c3.adiciona_telefone("1193333-3333", "celular")
+    c3.adiciona_email("aluno33@aluno.faculdadeimpacta.com.br", "email2")
+    c3.adiciona_email("aluno333@aluno.faculdadeimpacta.com.br", "email3")
+    assert c1.buscar("115111-1111") == True
+
+def test_create_dump():
+    c1 = Contato("Aluno1", "115111-1111", "aluno1@aluno.faculdadeimpacta.com.br")
+    c1.adiciona_telefone("111111-1111", "fixo")
+    c1.adiciona_telefone("1191111-1111", "celular")
+    c1.adiciona_email("aluno11@aluno.faculdadeimpacta.com.br", "email2")
+    c1.adiciona_email("aluno111@aluno.faculdadeimpacta.com.br", "email3")
+    c2 = Contato("Aluno2", "115222-2222", "aluno2@aluno.faculdadeimpacta.com.br")
+    c2.adiciona_telefone("112222-2222", "fixo")
+    c2.adiciona_telefone("1192222-2222", "celular")
+    c2.adiciona_email("aluno22@aluno.faculdadeimpacta.com.br", "email2")
+    c2.adiciona_email("aluno222@aluno.faculdadeimpacta.com.br", "email3")
+    c3 = Contato("Aluno3", "115333-3333", "aluno3@aluno.faculdadeimpacta.com.br")
+    c3.adiciona_telefone("113333-3333", "fixo")
+    c3.adiciona_telefone("1193333-3333", "celular")
+    c3.adiciona_email("aluno33@aluno.faculdadeimpacta.com.br", "email2")
+    c3.adiciona_email("aluno333@aluno.faculdadeimpacta.com.br", "email3")
+    for c in [c1, c2, c3]:
+        assert c.create_dump() == {
+            'nome': c.nome,
+            'telefones': c.get_telefones(),
+            'emails': c.get_emails()
+        }
+
+def test__repr__():
+    c = Contato("Aluno1", "115111-1111", "aluno1@aluno.faculdadeimpacta.com.br")
+    assert c.__repr__() == '<Contato: Aluno1>'

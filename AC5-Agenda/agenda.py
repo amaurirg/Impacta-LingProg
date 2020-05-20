@@ -336,7 +336,7 @@ class Contato():
         if tipo == 'principal':
             raise DeleteError("Não pode apagar o email principal")
         elif not tipo in self.emails:
-                raise KeyError("Tipo de email não encontrado")
+            raise KeyError("Tipo de email não encontrado")
             # return "Chave inválida"
         self.emails.pop(tipo)
 
@@ -393,9 +393,9 @@ class Contato():
             '345' em qualquer lugar: '11999888345', 'João do 345',
             'joao345@exemplo.com'
         """
-        pass
-        # if isinstance(valor_busca, Telefone)
-        # if isinstance(valor_busca, Email)
+        if valor_busca in self.create_dump():
+            return True
+        return False
 
     def create_dump(self):
         """
@@ -405,14 +405,18 @@ class Contato():
         'telefones': dicionário de telefones do contato
         'emails': dicionário de emails do contato.
         """
-        pass
+        return {
+            'nome': self._nome,
+            'telefones': self.telefones,
+            'emails': self.emails
+        }
 
     def __repr__(self):
         """
         Representação de um contato, use o padrão:
         '<Contato: nome-do-contato-aqui>'
         """
-        pass
+        return f'<Contato: {self.nome}>'
 
 
 class Agenda:

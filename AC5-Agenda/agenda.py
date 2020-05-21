@@ -186,6 +186,13 @@ class Email:
             raise ValueError("Email inválido!")
         return True
 
+        # if not isinstance(email, str):
+        #     raise TypeError
+        # elif '_' in email or '@' not in email or email.count('@') > 1 or email.replace('.', '').isalnum():
+        #     raise ValueError
+        # else:
+        #     return True
+
     @property
     def eh_aluno_impacta(self) -> bool:
         """
@@ -270,8 +277,8 @@ class Contato():
 
     def __init__(self, nome: str, telefone: str, email: str):
         self.nome = nome
-        self.telefones = {'principal': Telefone(telefone)}
-        self.emails = {'principal': Email(email)}
+        self._telefones = {'principal': Telefone(telefone)}
+        self._emails = {'principal': Email(email)}
 
     @property
     def nome(self) -> str:
@@ -303,7 +310,7 @@ class Contato():
         Se o tipo não for passado, deve ser por padrão tipo 'principal'.
         """
         if Telefone.valida_telefone(telefone):
-            self.telefones[tipo] = Telefone(telefone)
+            self._telefones[tipo] = Telefone(telefone)
 
     def adiciona_email(self, email: str, tipo='principal') -> None:
         """
@@ -314,7 +321,7 @@ class Contato():
         Se o tipo não for passado, por padrão o tipo 'principal' é atualizado.
         """
         if Email.valida_email(email):
-            self.emails[tipo] = Email(email)
+            self._emails[tipo] = Email(email)
 
     def apaga_telefone(self, tipo):
         """
@@ -323,10 +330,10 @@ class Contato():
         """
         if tipo == 'principal':
             raise DeleteError("Não pode apagar o telefone principal")
-        elif not tipo in self.telefones:
+        elif not tipo in self._telefones:
             raise KeyError("Tipo de telefone não encontrado")
             # return "Chave inválida"
-        self.telefones.pop(tipo)
+        self._telefones.pop(tipo)
 
     def apaga_email(self, tipo):
         """
@@ -335,22 +342,22 @@ class Contato():
         """
         if tipo == 'principal':
             raise DeleteError("Não pode apagar o email principal")
-        elif not tipo in self.emails:
+        elif not tipo in self._emails:
             raise KeyError("Tipo de email não encontrado")
             # return "Chave inválida"
-        self.emails.pop(tipo)
+        self._emails.pop(tipo)
 
     def get_telefones(self):
         """
         Retorna o dicionário de telefones
         """
-        return self.telefones
+        return self._telefones
 
     def get_emails(self):
         """
         Retorna o dicionário de emails
         """
-        return self.emails
+        return self._emails
 
     def lista_telefones(self) -> List[Tuple[str, Telefone]]:
         """
@@ -362,7 +369,7 @@ class Contato():
         DICA: usem o método items() de dicionários e convertam o resultado
         para uma lista com list().
         """
-        return [(tipo, telefone) for tipo, telefone in self.telefones.items()]
+        return [(tipo, telefone) for tipo, telefone in self._telefones.items()]
 
     def lista_emails(self) -> List[Tuple[str, Email]]:
         """
@@ -374,7 +381,7 @@ class Contato():
         DICA: usem o método items() de dicionários e convertam o resultado
         para uma lista com list().
         """
-        return [(tipo, email) for tipo, email in self.emails.items()]
+        return [(tipo, email) for tipo, email in self._emails.items()]
 
     def buscar(self, valor_busca: str):
         """
@@ -393,8 +400,15 @@ class Contato():
             '345' em qualquer lugar: '11999888345', 'João do 345',
             'joao345@exemplo.com'
         """
-        if valor_busca in self.create_dump():
+        resp = self.create_dump()
+        if valor_busca in (resp['nome']):
             return True
+        for t in resp['telefones']:
+            if valor_busca in (resp['telefones'][t].telefone):
+                return True
+        for e in resp['emails']:
+            if valor_busca in (resp['emails'][e].email):
+                return True
         return False
 
     def create_dump(self):
@@ -407,8 +421,8 @@ class Contato():
         """
         return {
             'nome': self._nome,
-            'telefones': self.telefones,
-            'emails': self.emails
+            'telefones': self._telefones,
+            'emails': self._emails
         }
 
     def __repr__(self):

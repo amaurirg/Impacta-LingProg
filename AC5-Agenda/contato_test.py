@@ -275,17 +275,11 @@ def test_buscar():
     c1.adiciona_telefone("1191111-1111", "celular")
     c1.adiciona_email("aluno11@aluno.faculdadeimpacta.com.br", "email2")
     c1.adiciona_email("aluno111@aluno.faculdadeimpacta.com.br", "email3")
-    c2 = Contato("Aluno2", "115222-2222", "aluno2@aluno.faculdadeimpacta.com.br")
-    c2.adiciona_telefone("112222-2222", "fixo")
-    c2.adiciona_telefone("1192222-2222", "celular")
-    c2.adiciona_email("aluno22@aluno.faculdadeimpacta.com.br", "email2")
-    c2.adiciona_email("aluno222@aluno.faculdadeimpacta.com.br", "email3")
-    c3 = Contato("Aluno3", "115333-3333", "aluno3@aluno.faculdadeimpacta.com.br")
-    c3.adiciona_telefone("113333-3333", "fixo")
-    c3.adiciona_telefone("1193333-3333", "celular")
-    c3.adiciona_email("aluno33@aluno.faculdadeimpacta.com.br", "email2")
-    c3.adiciona_email("aluno333@aluno.faculdadeimpacta.com.br", "email3")
-    assert c1.buscar("115111-1111") == True
+    assert c1.buscar("Alun") is True
+    assert c1.buscar("1111") is True
+    assert c1.buscar("@aluno") is True
+    assert c1.buscar("234315435") is False
+
 
 def test_create_dump():
     c1 = Contato("Aluno1", "115111-1111", "aluno1@aluno.faculdadeimpacta.com.br")

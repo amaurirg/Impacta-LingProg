@@ -444,7 +444,8 @@ class Agenda:
     """
 
     def __init__(self, titular: str, meu_numero: str, meu_email: str):
-        pass
+        self.meu_contato = Contato(titular, meu_numero, meu_email)
+        self.contatos = []
 
     def novo_contato(self, nome: str, telefone: str, email: str) -> None:
         """

@@ -166,8 +166,8 @@ class TestContato:
                 c1.apaga_telefone(tipo)
             except DeleteError:
                 pass
-            # except KeyError:
-            #     pass
+            except KeyError:
+                pass
             except Exception:
                 raise AssertionError('Levantou o tipo de erro incorreto')
             else:
@@ -210,8 +210,8 @@ class TestContato:
                 c1.apaga_email(tipo)
             except DeleteError:
                 pass
-            # except KeyError:
-            #     pass
+            except KeyError:
+                pass
             except Exception:
                 raise AssertionError('Levantou o tipo de erro incorreto')
             else:

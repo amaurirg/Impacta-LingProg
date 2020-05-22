@@ -133,23 +133,23 @@ def test_adiciona_email_invalido_1():
     c = Contato("Aluno", "1199999-9999", "aluno@aluno.faculdadeimpacta.com.br")
     emails = [
         '',
-        # "aluno 1@impacta.com.br",
+        "aluno 1@impacta.com.br",
         "amauri@@impacta.com.br",
-        # "amauri..impacta.com.br",
+        "amauri..impacta.com.br",
         "amauriimpacta.com.br",
         "amauri_giovani@impacta.com.br",
-        # "am.au-ri@gm-ai.l",
-        # "a@g",
-        # "a@g.com.b",
-        # "aluno@gmail.com.brasil",
-        # "a@g.com",
-        # "ama@uri@facul.edu",
-        # "ama-uri@aluno.facul.",
-        # "ama-uri.giova-ni333@aluno.facul",
-        # "ama-uri.giova-ni333@.br",
-        # "@amauriimpacta.com.br",
-        # "amauriimpacta@.com.br",
-        # "amauri@impacta@faculdade.com.br"
+        "am.au-ri@gm-ai.l",
+        "a@g",
+        "a@g.com.b",
+        "aluno@gmail.com.brasil",
+        "a@g.com",
+        "ama@uri@facul.edu",
+        "ama-uri@aluno.facul.",
+        "ama-uri.giova-ni333@aluno.facul",
+        "ama-uri.giova-ni333@.br",
+        "@amauriimpacta.com.br",
+        "amauriimpacta@.com.br",
+        "amauri@impacta@faculdade.com.br"
     ]
     for email in emails:
         try:

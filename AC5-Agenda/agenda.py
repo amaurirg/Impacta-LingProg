@@ -480,7 +480,7 @@ class Agenda:
         dado. Se sim, o telefone a ser chamado é o segundo valor da tupla.
         """
         lista = self.busca_contatos(valor_busca.lower())
-        for contato in lista:
+        for contato in self.busca_contatos(valor_busca):
             for k, v in contato.get_telefones().items():
                 if k == tipo:
                     return f'Ligando para {contato.nome}: {v}'
@@ -530,7 +530,7 @@ class Agenda:
             raise TypeError("Arquivo precisa ser do tipo json (.json)")
         lista = [contato.create_dump() for contato in self.contatos]
         with open(nome_arquivo, 'w') as c:
-            c.write(json.dumps(lista, default=dumper, indent=4))
+            c.write(json.dumps(lista, default=dumper, indent=4, ensure_ascii=False))
 
     def carregar_contatos(self, nome_arquivo: str) -> str:
         """

@@ -70,6 +70,10 @@ def test_ligar():
     assert a.ligar('11511') == f'Ligando para Aluno1: {Telefone("115111-1111")}'
     assert a.ligar('11') == f'Ligando para Aluno1: {Telefone("115111-1111")}'
     assert a.ligar('faculdade') == f'Ligando para Aluno1: {Telefone("115111-1111")}'
+    # assert a.ligar('faculdade', "celular") == f'Ligando para Aluno2: {Telefone("115222-2222")}'
+    # assert a.ligar('faculdade') == f'Ligando para Aluno1: {Telefone("115111-1111")}'
+    # assert a.ligar('faculdade') == f'Ligando para Aluno1: {Telefone("115111-1111")}'
+    # assert a.ligar('faculdade') == f'Ligando para Aluno1: {Telefone("115111-1111")}'
 
 
 def test_apagar_contato():
@@ -175,7 +179,7 @@ def test_carregar_contatos():
             }
         },
         {
-            "nome": "Jo\u00e3o",
+            "nome": "João",
             "telefones": {
                 "principal": "1152525252"
             },

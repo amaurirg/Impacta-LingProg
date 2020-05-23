@@ -383,6 +383,9 @@ class Contato():
         """
         return [(tipo, email) for tipo, email in self._emails.items()]
 
+        # list(self.emails.items())
+
+
     def buscar(self, valor_busca: str):
         """
         Função para determinar se o contato atual (o self) corresponde ao
@@ -400,39 +403,13 @@ class Contato():
             '345' em qualquer lugar: '11999888345', 'João do 345',
             'joao345@exemplo.com'
         """
-        #  com dict
-        # resp = self.create_dump()
-        # if valor_busca in (resp['nome']):
-        #     return True
-        # for t in resp['telefones']:
-        #     if valor_busca in (resp['telefones'][t].telefone):
-        #         return True
-        # for e in resp['emails']:
-        #     if valor_busca in (resp['emails'][e].email):
-        #         return True
-        # return False
-
-        # com list
-        # if valor_busca in self._nome:
-        #     return True
-        # lista_tels = [tel.telefone for tel in self.get_telefones().values()]
-        # for valor in lista_tels:
-        #     if valor_busca in valor:
-        #         return True
-        # lista_emails = [e.email for e in self.get_emails().values()]
-        # for valor in lista_emails:
-        #     if valor_busca in valor:
-        #         return True
-        # return False
-
-        lista_contato = [self._nome] + [tel.telefone for tel in self.get_telefones().values()] + [e.email for e in self.get_emails().values()]
-        for i in lista_contato:
-            if valor_busca in i:
+        lista_contato = [self._nome] + [
+            tel.telefone for tel in self.get_telefones().values()] + [
+            e.email for e in self.get_emails().values()]
+        for valor in lista_contato:
+            if valor_busca in valor:
                 return True
         return False
-
-        # for i in lista_contato:
-        #     return (False, True)[valor_busca in i]
 
     def create_dump(self):
         """
@@ -485,13 +462,13 @@ class Agenda:
         correspondência (buscar) de cada contato para ver se ele deve ou não
         ser adicionado à lista
         """
+        encontrados = []
+        for contato in self.contatos:
+            if contato.buscar(valor_busca):
+                encontrados.append(contato)
+        return encontrados
 
-        for i in self.contatos:
-            if self.meu_contato.buscar(valor_busca):
-                self.novo_contato(i['nome'], i['telefone'], i['email'])
-        return self.contatos
-
-    def ligar(self, valor_busca, tipo='principal') -> None:
+    def ligar(self, valor_busca, tipo='principal') -> str:
         """
         Busca a lista de contato que correspondam ao valor buscado e liga
         para o primeiro contato da lista que possuir o telefone do tipo dado
@@ -505,7 +482,13 @@ class Agenda:
         do contato verificando se o primeiro valor da tupla é igual ao tipo
         dado. Se sim, o telefone a ser chamado é o segundo valor da tupla.
         """
-        pass
+        lista = self.busca_contatos(valor_busca.lower())
+        for contato in lista:
+            for k, v in contato.get_telefones().items():
+                if k == tipo:
+                    return f'Ligando para {contato.nome}: {v}'
+        return f'Nenhum contato possui o tipo de telefone dado!'
+
 
     def apagar_contato(self, email_busca) -> str:
         """
@@ -517,11 +500,12 @@ class Agenda:
         Se nenhum contato for encontrado, retorna a mensagem:
         'Nenhum contato corresponde ao email dado.'
         """
-        if email_busca in self.contatos:
-            self.contatos.pop(email_busca)
-            return f'<Contato {email_busca}> excluído com sucesso!'
-        else:
-            return "Nenhum contato corresponde ao email dado"
+        for contato in self.busca_contatos(email_busca):
+            for v in contato.get_emails().values():
+                if v.email == email_busca:
+                    self.contatos.remove(contato)
+                    return f'{contato} excluído com sucesso!'
+        return "Nenhum contato corresponde ao email dado."
 
     def exportar_contatos(self, nome_arquivo: str) -> None:
         """
@@ -545,12 +529,17 @@ class Agenda:
               como parâmetro nomeado `indent` um valor inteiro positivo.
               Valores comuns são 2 ou 4.
         """
-        pass
+        lista = [contato.create_dump() for contato in self.contatos]
+        with open('contatos.json', 'w') as c:
+            c.write(json.dumps(lista, default=dumper, indent=4))
 
-    def carregar_contatos(self, nome_arquivo: str) -> None:
+    def carregar_contatos(self, nome_arquivo: str) -> str:
         """
         Método bônus - não será considerado para a correção
         Ler um arquivo json exportado pelo método anterior e
         carregar os contatos na agenda.
         """
-        pass
+        if nome_arquivo == 'contatos.json':
+            with open(nome_arquivo) as c:
+                return json.loads(c.read())
+        return f'Arquivo {nome_arquivo} não encontrado!'

@@ -1,0 +1,50 @@
+[
+    {
+        "nome": "Ana",
+        "telefones": {
+            "principal": "11988776655",
+            "casa": "1122332233",
+            "trabalho": "1145004588"
+        },
+        "emails": {
+            "principal": "ana@email.com",
+            "trabalho": "ana.matos@empresa.com.br"
+        }
+    },
+    {
+        "nome": "Pedro",
+        "telefones": {
+            "principal": "11-955552222",
+            "casa": "11-4477-8877"
+        },
+        "emails": {
+            "principal": "pedro@email.com",
+            "trabalho": "pedro.santos@empresa.com"
+        }
+    },
+    {
+        "nome": "Mariana",
+        "telefones": {
+            "principal": "21-145145145",
+            "chacara": "19-562-562-562",
+            "trabalho-rio": "21-951-951-987",
+            "trabalho-sp": "11-987-963-963"
+        },
+        "emails": {
+            "principal": "mariana@email.com",
+            "trabalho": "mari.neves@empresa.com",
+            "jogos": "sakura.chan@gmail.com"
+        }
+    },
+    {
+        "nome": "Gustavo",
+        "telefones": {
+            "principal": "11-952525252",
+            "casa": "11-4477-8877"
+        },
+        "emails": {
+            "principal": "gustavo@email.com",
+            "trabalho": "gustavo.santos@empresa.com"
+        }
+    }
+]

@@ -1,4 +1,4 @@
-from agenda import (Contato, CreateContactError, DeleteError,
+from agenda import (Agenda, Contato, CreateContactError, DeleteError,
                     Email, Telefone)
 
 
@@ -22,12 +22,15 @@ class TelefoneAtualizado(Telefone):
 
 
 class TestEmail:
+    """
+    Testes para a classe Email
+    """
     def test_01_cria_email(self):
         e1 = Email('teste@exemplo.com')
         msg = 'o email criado não foi salvo na property `email`'
         assert e1.email == 'teste@exemplo.com', msg
 
-    def test_02_cria_email_erro1(self):
+    def test_02_cria_email_erro(self):
         tipos_errados = [1, True, 3.0, None,
                          ('email', 'email@exemplo.com'),
                          {'email': 'nome@teste.com'}]
@@ -90,12 +93,14 @@ class TestEmail:
         e2 = Email('teste@impacta.com.br')
         e3 = Email('teste@faculdadeimpacta.com')
         e4 = Email('teste@faculdadeimpacta.edu.br')
-        e5 = Email('teste@qqcoisafaculdadeimpacta.com.br')
         msg = 'todos os emails criados deveriam retornar False para a property eh_impacta'
-        assert not any([e.eh_impacta for e in [e1, e2, e3, e4, e5]]), msg
+        assert not any([e.eh_impacta for e in [e1, e2, e3, e4]]), msg
 
 
 class TestContato:
+    """
+    Testes para a classe Contato
+    """
     def test_07_cria_contato(self):
         c1 = Contato('Rafael', '11999777888', 'rafael@exemplo.com')
         assert c1.nome == 'Rafael', 'O nome foi criado incorretamente'
@@ -160,18 +165,14 @@ class TestContato:
 
     def test_11_apaga_telefone_principal(self):
         c1 = Contato('Rafael', '11999777888', 'rafael@exemplo.com')
-        lista_tipos = ['principal', 'outro_tipo']
-        for tipo in lista_tipos:
-            try:
-                c1.apaga_telefone(tipo)
-            except DeleteError:
-                pass
-            # except KeyError:
-            #     pass
-            except Exception:
-                raise AssertionError('Levantou o tipo de erro incorreto')
-            else:
-                raise AssertionError('Não levantou erro ao tentar apagar o telefone principal')
+        try:
+            c1.apaga_telefone('principal')
+        except DeleteError:
+            pass
+        except Exception:
+            raise AssertionError('Levantou o tipo de erro incorreto')
+        else:
+            raise AssertionError('Não levantou erro ao tentar apagar o telefone principal')
 
     def test_12_adiciona_email(self):
         c1 = Contato('Rafael', '11999777888', 'rafael@exemplo.com')
@@ -204,15 +205,155 @@ class TestContato:
 
     def test_14_apaga_email_principal(self):
         c1 = Contato('Rafael', '11999777888', 'rafael@exemplo.com')
-        lista_tipos = ['principal', 'outro_tipo']
-        for tipo in lista_tipos:
-            try:
-                c1.apaga_email(tipo)
-            except DeleteError:
-                pass
-            # except KeyError:
-            #     pass
-            except Exception:
-                raise AssertionError('Levantou o tipo de erro incorreto')
-            else:
-                raise AssertionError('Não levantou erro ao tentar apagar o email principal')
+        try:
+            c1.apaga_email('principal')
+        except DeleteError:
+            pass
+        except Exception:
+            raise AssertionError('Levantou o tipo de erro incorreto')
+        else:
+            raise AssertionError('Não levantou erro ao tentar apagar o email principal')
+
+    def test_15_buscar_contato(self):
+        c1 = Contato('Rafael', '11999777888', 'rafael@exemplo.com')
+        msg1 = 'O valor buscado existe no contato, deveria retornar True'
+        msg2 = 'O valor buscado não existe no contato, deveria retornar False'
+        assert c1.buscar('Rafa'), msg1
+        assert c1.buscar('.com'), msg1
+        assert c1.buscar('977'), msg1
+        assert not c1.buscar('Pedro'), msg2
+        assert not c1.buscar('rafael.ribeiro'), msg2
+        assert not c1.buscar('456'), msg2
+
+    def test_16_get_telefones(self):
+        """
+        Este teste não será disponibilizado, faça a verificação com base nas
+        instruções do enunciado
+        """
+        pass
+
+    def test_17_get_emails(self):
+        """
+        Este teste não será disponibilizado, faça a verificação com base nas
+        instruções do enunciado
+        """
+        pass
+
+    def test_18_lista_telefones(self):
+        """
+        Este teste não será disponibilizado, faça a verificação com base nas
+        instruções do enunciado
+        """
+        pass
+
+    def test_19_lista_emails(self):
+        """
+        Este teste não será disponibilizado, faça a verificação com base nas
+        instruções do enunciado
+        """
+        pass
+
+
+class TestAgenda:
+    """
+    Testes para a classe Agenda
+    """
+    def test_20_cria_agenda(self):
+        a1 = Agenda('Rafael', '11999887766', 'rafael@email.com')
+        assert hasattr(a1, 'meu_contato'), 'Não criou o atributo público corretamente'
+        assert isinstance(a1.meu_contato, Contato), (
+            'meu_contato deve guardar uma instância de Contato')
+        assert hasattr(a1, 'contatos'), 'Não criou o atributo público corretamente'
+        assert a1.contatos == [], (
+            'atributo contatos deve ser inicializado como uma lista vazia')
+
+    def test_21_adiciona_contato(self):
+        a1 = Agenda('Rafael', '11999887766', 'rafael@email.com')
+        a1.novo_contato('Ana', '11999888563', 'ana@email.com')
+        a1.novo_contato('Pedro', '1955552222', 'pedro@email.com')
+        assert len(a1.contatos) == 2, 'A agenda deveria ter 2 contatos'
+        assert a1.contatos[0].nome == 'Ana', 'O primeiro contato não está correto'
+        assert a1.contatos[1].nome == 'Pedro', 'O segundo contato não está correto'
+        a1.novo_contato('Silvia', '21145145145', 'silvia@email.com')
+        assert len(a1.contatos) == 3, 'A agenda deveria ter 3 contatos'
+        assert a1.contatos[2].nome == 'Silvia', 'O terceiro contato não está correto'
+
+    def test_22_busca_contatos(self):
+        a1 = Agenda('Rafael', '11999887766', 'rafael@email.com')
+        a1.novo_contato('Ana', '11999888563', 'ana@email.com')
+        a1.novo_contato('Pedro', '1955552222', 'pedro@email.com')
+        a1.novo_contato('Mariana', '21145145145', 'mariana@email.com')
+        a1.novo_contato('João', '1152525252', 'joao@email.com')
+        lista01 = a1.busca_contatos('ana')
+        lista02 = a1.busca_contatos('9888')
+        lista03 = a1.busca_contatos('52')
+        lista04 = a1.busca_contatos('email.com')
+        assert len(lista01) == 2, 'A busca deveria retornar 2 contatos'
+        assert len(lista02) == 1, 'A busca deveria retornar 1 contato'
+        assert len(lista03) == 2, 'A busca deveria retornar 2 contatos'
+        assert len(lista04) == 4, 'A busca deveria retornar 4 contatos'
+        assert lista01[0].nome == 'Ana', 'O contato da lista está incorreto'
+        assert lista01[1].nome == 'Mariana', 'O contato da lista está incorreto'
+        assert lista02[0].nome == 'Ana', 'O contato da lista está incorreto'
+        assert lista03[0].nome == 'Pedro', 'O contato da lista está incorreto'
+        assert lista03[1].nome == 'João', 'O contato da lista está incorreto'
+        assert lista04[1].nome == 'Pedro', 'O contato da lista está incorreto'
+        assert lista04[2].nome == 'Mariana', 'O contato da lista está incorreto'
+        assert lista04[3].nome == 'João', 'O contato da lista está incorreto'
+
+    def test_23_ligar_contato(self):
+        a1 = Agenda('Rafael', '11999887766', 'rafael@email.com')
+        a1.novo_contato('Ana', '11999888563', 'ana@email.com')
+        a1.novo_contato('Pedro', '1955552222', 'pedro@email.com')
+        a1.novo_contato('Mariana', '21145145145', 'mariana@email.com')
+        a1.novo_contato('João', '1152525252', 'joao@email.com')
+        a1.contatos[2].adiciona_telefone('45124512', 'casa')
+        ligar01 = a1.ligar('ana')
+        ligar02 = a1.ligar('9888', 'casa')
+        ligar03 = a1.ligar('52')
+        ligar04 = a1.ligar('email.com', 'casa')
+        resp = [
+            'Ligando para Ana: <Telefone: 11999888563>',
+            'Nenhum contato possui o tipo de telefone dado!',
+            'Ligando para Pedro: <Telefone: 1955552222>',
+            'Ligando para Mariana: <Telefone: 45124512>'
+        ]
+        msg = 'Método ligar não retornou a mensagem correta'
+        assert ligar01 == resp[0], msg
+        assert ligar02 == resp[1], msg
+        assert ligar03 == resp[2], msg
+        assert ligar04 == resp[3], msg
+
+    def test_24_exclui_contato(self):
+        a1 = Agenda('Rafael', '11999887766', 'rafael@email.com')
+        a1.novo_contato('Ana', '11999888563', 'ana@email.com')
+        a1.novo_contato('Pedro', '1955552222', 'pedro@email.com')
+        a1.novo_contato('Mariana', '21145145145', 'mariana@email.com')
+        a1.novo_contato('João', '1152525252', 'joao@email.com')
+        a1.contatos[2].adiciona_telefone('45124512', 'casa')
+        exclui01 = a1.apagar_contato('rafael@email.com')
+        exclui02 = a1.apagar_contato('pedro@email.com')
+        exclui03 = a1.apagar_contato('mariana@email.com')
+        exclui04 = a1.apagar_contato('joao@email.com')
+        resp = [
+            'Nenhum contato corresponde ao email dado.',
+            '<Contato: Pedro> excluído com sucesso!',
+            '<Contato: Mariana> excluído com sucesso!',
+            '<Contato: João> excluído com sucesso!'
+        ]
+        msg = 'Método apagar_contato não retornou a mensagem correta'
+        assert exclui01 == resp[0], msg
+        assert exclui02 == resp[1], msg
+        assert exclui03 == resp[2], msg
+        assert exclui04 == resp[3], msg
+        assert not len(a1.contatos) > 1, 'Pelo menos um dos contatos não foi removido da lista'
+        assert not len(a1.contatos) == 0, 'Apagou mais contatos do que os emails passados'
+        assert a1.contatos[0].nome == 'Ana', 'Apagou contatos que não foram pedidos'
+
+    def test_25_exporta_contatos(self):
+        """
+        Este teste não será disponibilizado, faça a verificação com base nas
+        instruções do enunciado e no arquivo de exemplo disponibilizado no
+        enunciado da AC5 no Classroom
+        """
+        pass

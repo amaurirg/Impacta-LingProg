@@ -186,13 +186,6 @@ class Email:
             raise ValueError("Email inválido!")
         return True
 
-        # if not isinstance(email, str):
-        #     raise TypeError
-        # elif '@' not in email or '_' in email or email.count('@') > 1 or email.replace('.', '').isalnum():
-        #     raise ValueError
-        # else:
-        #     return True
-
     @property
     def eh_aluno_impacta(self) -> bool:
         """
@@ -341,9 +334,6 @@ class Contato():
         """
         if tipo == 'principal':
             raise DeleteError("Não pode apagar o email principal")
-        # elif not tipo in self._emails:
-        #     raise KeyError("Tipo de email não encontrado")
-        # return "Chave inválida"
         self._emails.pop(tipo)
 
     def get_telefones(self):
@@ -479,7 +469,6 @@ class Agenda:
         do contato verificando se o primeiro valor da tupla é igual ao tipo
         dado. Se sim, o telefone a ser chamado é o segundo valor da tupla.
         """
-        lista = self.busca_contatos(valor_busca.lower())
         for contato in self.busca_contatos(valor_busca):
             for k, v in contato.get_telefones().items():
                 if k == tipo:

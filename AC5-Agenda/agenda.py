@@ -2,7 +2,6 @@
 # Atividade Contínua 05 - Classes e encapsulamento
 #
 # e-mails: amauri.giovani@aluno.faculdadeimpacta.com.br
-
 from typing import List, Tuple
 import json
 import re
@@ -369,7 +368,7 @@ class Contato():
         DICA: usem o método items() de dicionários e convertam o resultado
         para uma lista com list().
         """
-        return [(tipo, telefone) for tipo, telefone in self._telefones.items()]
+        return list(self.get_telefones().items())
 
     def lista_emails(self) -> List[Tuple[str, Email]]:
         """
@@ -381,9 +380,7 @@ class Contato():
         DICA: usem o método items() de dicionários e convertam o resultado
         para uma lista com list().
         """
-        return [(tipo, email) for tipo, email in self._emails.items()]
-
-        # list(self.emails.items())
+        return list(self.get_emails().items())
 
 
     def buscar(self, valor_busca: str):
@@ -502,7 +499,7 @@ class Agenda:
         """
         for contato in self.busca_contatos(email_busca):
             for v in contato.get_emails().values():
-                if v.email == email_busca:
+                if email_busca in v.email:
                     self.contatos.remove(contato)
                     return f'{contato} excluído com sucesso!'
         return "Nenhum contato corresponde ao email dado."
@@ -529,8 +526,10 @@ class Agenda:
               como parâmetro nomeado `indent` um valor inteiro positivo.
               Valores comuns são 2 ou 4.
         """
+        if not nome_arquivo.endswith('.json'):
+            raise TypeError("Arquivo precisa ser do tipo json (.json)")
         lista = [contato.create_dump() for contato in self.contatos]
-        with open('contatos.json', 'w') as c:
+        with open(nome_arquivo, 'w') as c:
             c.write(json.dumps(lista, default=dumper, indent=4))
 
     def carregar_contatos(self, nome_arquivo: str) -> str:
@@ -539,7 +538,7 @@ class Agenda:
         Ler um arquivo json exportado pelo método anterior e
         carregar os contatos na agenda.
         """
-        if nome_arquivo == 'contatos.json':
-            with open(nome_arquivo) as c:
-                return json.loads(c.read())
-        return f'Arquivo {nome_arquivo} não encontrado!'
+        if not nome_arquivo.endswith('.json'):
+            nome_arquivo += '.json'
+        with open(nome_arquivo) as c:
+            return json.loads(c.read())

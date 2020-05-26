@@ -19,23 +19,23 @@ def test_cria_email_valido():
 def test_cria_email_invalido_1():
     emails = [
         '',
-        # "aluno 1@impacta.com.br",
+        "aluno 1@impacta.com.br",
         "amauri@@impacta.com.br",
-        # "amauri..impacta.com.br",
+        "amauri..impacta.com.br",
         "amauriimpacta.com.br",
         "amauri_giovani@impacta.com.br",
-        # "am.au-ri@gm-ai.l",
-        # "a@g",
-        # "a@g.com.b",
-        # "aluno@gmail.com.brasil",
-        # "a@g.com",
-        # "ama@uri@facul.edu",
-        # "ama-uri@aluno.facul.",
-        # "ama-uri.giova-ni333@aluno.facul",
-        # "ama-uri.giova-ni333@.br",
-        # "@amauriimpacta.com.br",
-        # "amauriimpacta@.com.br",
-        # "amauri@impacta@faculdade.com.br"
+        "am.au-ri@gm-ai.l",
+        "a@g",
+        "a@g.com.b",
+        "aluno@gmail.com.brasil",
+        "a@g.com",
+        "ama@uri@facul.edu",
+        "ama-uri@aluno.facul.",
+        "ama-uri.giova-ni333@aluno.facul",
+        "ama-uri.giova-ni333@.br",
+        "@amauriimpacta.com.br",
+        "amauriimpacta@.com.br",
+        "amauri@impacta@faculdade.com.br"
     ]
     for email in emails:
         try:
@@ -87,10 +87,9 @@ def test_nao_eh_impacta():
     e2 = Email('teste@impacta.com.br')
     e3 = Email('teste@faculdadeimpacta.com')
     e4 = Email('teste@faculdadeimpacta.edu.br')
-    # e5 = Email('teste@qqcoisafaculdadeimpacta.com.br')
+    e5 = Email('teste@qqcoisafaculdadeimpacta.com.br')
     e6 = Email("professor@outrafaculdade.com.br")
-    # assert not any([e.eh_impacta for e in [e1, e2, e3, e4, e5, e6]]), "Emails deveriam retornar False"
-    assert not any([e.eh_impacta for e in [e1, e2, e3, e4, e6]]), "Emails deveriam retornar False"
+    assert not any([e.eh_impacta for e in [e1, e2, e3, e4, e5, e6]]), "Emails deveriam retornar False"
 
 
 def test_to_json():
